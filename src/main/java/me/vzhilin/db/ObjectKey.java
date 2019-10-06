@@ -36,4 +36,12 @@ public final class ObjectKey {
     public int hashCode() {
         return Objects.hash(table, values);
     }
+
+    @Override
+    public String toString() {
+        return "ObjectKey{" +
+                "table=" + table +
+                ", values=" + values +
+                '}';
+    }
 }

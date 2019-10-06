@@ -2,19 +2,22 @@ package me.vzhilin.schema;
 
 import me.vzhilin.util.BiMap;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-public class Table {
+public final class Table {
     private final String name;
+    private final Schema schema;
     private Optional<PrimaryKey> primaryKey;
-    private final Map<String, ForeignKey> foreignKeys = new HashMap<>();
-    private final Map<String, Column> columns = new HashMap<>();
+    private final Map<String, ForeignKey> foreignKeys = new LinkedHashMap<>();
+    private final Map<String, Column> columns = new LinkedHashMap<>();
 
-    public Table(String name) {
+    public Table(Schema schema, String name) {
+        this.schema = schema;
         this.name = name;
+    }
+
+    public String getSchemaName() {
+        return schema.getName();
     }
 
     public Column addColumn(String columnName, String columnType) {
@@ -45,16 +48,30 @@ public class Table {
         return name;
     }
 
-    public PrimaryKey getPk() {
-        return null;
-    }
-
     public Map<String, Column> getColumns() {
         return Collections.unmodifiableMap(columns);
+    }
+
+    public Map<String, ForeignKey> getForeignKeys() {
+        return Collections.unmodifiableMap(foreignKeys);
     }
 
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table = (Table) o;
+        return name.equals(table.name) &&
+                schema.equals(table.schema);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, schema);
     }
 }

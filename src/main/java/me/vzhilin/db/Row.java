@@ -2,11 +2,9 @@ package me.vzhilin.db;
 
 import me.vzhilin.schema.Column;
 import me.vzhilin.schema.ForeignKey;
+import me.vzhilin.schema.Table;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class Row {
     private final ObjectKey key;
@@ -25,6 +23,36 @@ public final class Row {
         return values.get(column);
     }
 
+    public Table getTable() {
+        return key.getTable();
+    }
+
+    public Map<Column, Object> getValues() {
+        ensureLoaded();
+        return Collections.unmodifiableMap(values);
+    }
+
+    public Map<ForeignKey, Row> forwardReferences() {
+        Map<ForeignKey, Row> result = new HashMap<>();
+        for (ForeignKey fk: key.getTable().getForeignKeys().values()) {
+            Map<Column, Object> key = new HashMap<>();
+            final boolean[] hasNull = {false};
+            fk.getColumnMapping().forEach((pkColumn, fkColumn) -> {
+                Object value = get(fkColumn);
+                if (!hasNull[0] && value != null) {
+                    key.put(pkColumn, value);
+                } else {
+                    hasNull[0] = true;
+                }
+            });
+            if (hasNull[0]) {
+                continue;
+            }
+            result.put(fk, new Row(ctx, new ObjectKey(fk.getPkTable(), key)));
+        }
+        return result;
+    }
+
     public Row forwardReference(ForeignKey fk) {
         Map<Column, Object> pkValues = new HashMap<>();
         // TODO check not null
@@ -32,15 +60,15 @@ public final class Row {
         return new Row(ctx, new ObjectKey(fk.getPkTable(), pkValues));
     }
 
-    public Map<ForeignKey, Long> backwardReferencesCount() {
+    public Map<ForeignKey, Number> backwardReferencesCount() {
         Set<ForeignKey> foreignKeys = key.getTable().getPrimaryKey().get().getForeignKeys();
-        Map<ForeignKey, Long> result = new HashMap<>(foreignKeys.size());
+        Map<ForeignKey, Number> result = new HashMap<>(foreignKeys.size());
         foreignKeys.forEach(fk -> result.put(fk, ctx.backReferencesCount(this, fk)));
         return result;
     }
 
-    public Iterator<Row> backwardReference(ForeignKey fk) {
-        return null;
+    public Iterable<Row> backwardReference(ForeignKey fk) {
+        return ctx.backReferences(this, fk);
     }
 
     private void ensureLoaded() {
@@ -52,5 +80,25 @@ public final class Row {
 
     public ObjectKey getKey() {
         return key;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Row row = (Row) o;
+        return key.equals(row.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key);
+    }
+
+    @Override
+    public String toString() {
+        return "Row{" +
+                "key=" + key +
+                '}';
     }
 }

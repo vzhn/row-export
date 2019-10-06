@@ -26,10 +26,6 @@ public final class BiMap<A, B> {
         forwardMap.forEach(action);
     }
 
-    public void forEachReverse(BiConsumer<? super B, ? super A> action) {
-        reverseMap.forEach(action);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

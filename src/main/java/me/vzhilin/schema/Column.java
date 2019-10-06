@@ -38,10 +38,6 @@ public class Column {
 
     @Override
     public String toString() {
-        return "Column{" +
-                "table=" + table +
-                ", name='" + name + '\'' +
-                ", dataType='" + dataType + '\'' +
-                '}';
+        return table.getSchemaName() + "." + table.getName() + "." + name;
     }
 }

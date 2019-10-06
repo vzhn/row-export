@@ -33,4 +33,12 @@ public final class ForeignKey {
     public BiMap<Column, Column> getColumnMapping() {
         return columnMapping;
     }
+
+    @Override
+    public String toString() {
+        return "ForeignKey{" +
+                "fkName='" + fkName + '\'' +
+                ", fromTable=" + fromTable +
+                '}';
+    }
 }

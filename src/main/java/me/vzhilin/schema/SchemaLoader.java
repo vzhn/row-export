@@ -17,6 +17,7 @@ public class SchemaLoader {
         Connection conn = ds.getConnection();
         DatabaseMetaData metadata = conn.getMetaData();
         loadTables(schema, metadata);
+        conn.close();
         return schema;
     }
 
@@ -24,23 +25,21 @@ public class SchemaLoader {
         String schemaName = schema.getName();
         ResultSet tables = metadata.getTables(null, schemaName, null, new String[]{"TABLE"});
         while (tables.next()) {
-            String tableSchema = tables.getString(2);
-            String tableName = tables.getString(3);
-            String tableType = tables.getString(4);
-            Table table = schema.addTable(tableName);
+            schema.addTable(tables.getString("TABLE_NAME"));
         }
+        tables.close();
 
         ResultSet columns = metadata.getColumns(null, schemaName, null, null);
         while (columns.next()) {
-            String tableName = columns.getString(3);
-            String columnName = columns.getString(4);
-            String columnType = columns.getString(6);
-
+            String tableName = columns.getString("TABLE_NAME");
+            String columnName = columns.getString("COLUMN_NAME");
+            String columnType = columns.getString("TYPE_NAME");
             Table table = schema.getTable(tableName);
             if (table != null) {
                 table.addColumn(columnName, columnType);
             }
         }
+        columns.close();
 
         /**
          FKTABLE_NAME String => foreign key table name
@@ -52,16 +51,16 @@ public class SchemaLoader {
             ResultSet primaryKeys = metadata.getPrimaryKeys(null, schemaName, tableName);
             PrimaryKey pk = null;
             while (primaryKeys.next()) {
-                String columnName = primaryKeys.getString(4);
-                int keySeq = primaryKeys.getInt(5);
+                String columnName = primaryKeys.getString("COLUMN_NAME");
+                int keySeq = primaryKeys.getInt("KEY_SEQ");
                 if (pk == null) {
-                    String pkName = primaryKeys.getString(6);
+                    String pkName = primaryKeys.getString("PK_NAME");
                     pk = new PrimaryKey(Optional.ofNullable(pkName), table);
                 }
                 pk.addColumn(table.getColumn(columnName), keySeq);
             }
             table.setPk(pk);
-
+            primaryKeys.close();
         }
 
         for (String tableName: schema.getTableNames()) {
@@ -75,26 +74,19 @@ public class SchemaLoader {
                 Map<Table, Map<String, BiMap<Column, Column>>> columnMapping = new HashMap<>();
 
                 while (keys.next()) {
-                    String pkTableSchema = keys.getString(2);
-                    String pkTableName = keys.getString(3);
-                    String pkColumnName = keys.getString(4);
-
-                    String fkTableSchema = keys.getString(6);
-                    String fkTableName = keys.getString(7);
-                    String fkColumnName = keys.getString(8);
-                    int keySeq = keys.getInt(9);
-                    String fkName = keys.getString(12);
-                    String pkName = keys.getString(13);
-
+                    String pkColumnName = keys.getString("PKCOLUMN_NAME");
+                    String fkTableName = keys.getString("FKTABLE_NAME");
+                    String fkColumnName = keys.getString("FKCOLUMN_NAME");
+                    String fkName = keys.getString("FK_NAME");
                     Column pkColumn = table.getColumn(pkColumnName);
                     Table fkTable = schema.getTable(fkTableName);
-
                     Column fkColumn = fkTable.getColumn(fkColumnName);
                     columnMapping.
                         computeIfAbsent(fkTable, t -> new HashMap<>()).
                         computeIfAbsent(fkName, t -> new BiMap<>()).
                         put(pkColumn, fkColumn);
                 }
+                keys.close();
 
                 columnMapping.forEach((fkTable, fkNameToColumns) ->
                     fkNameToColumns.forEach((fkName, cols) -> {
