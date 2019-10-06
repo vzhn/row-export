@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public class Export {
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
     public void export(List<Row> rows, PrintStream out) {
         StringBuilder sb = new StringBuilder();
         for (Row row: rows) {
@@ -23,26 +24,10 @@ public class Export {
             sb.append(table.getSchemaName()).append(".").append(table.getName());
             List<String> cols = new ArrayList<>();
             List<Object> vs = new ArrayList<>();
-            columns.forEach(new Consumer<String>() {
-                private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-                @Override
-                public void accept(String columnName) {
-                    Object value = row.get(table.getColumn(columnName));
-                    String s;
-                    if (value == null) {
-                        return;
-                    } else
-                    if (value instanceof String) {
-                        s = "'" + value + "'";
-                    } else
-                    if (value instanceof Number) {
-                        s = String.valueOf(value);
-                    } else
-                    if (value instanceof Date) {
-                        s = "to_date('" + format.format(value) + "','DD.MM.YYYY HH24:MI:SS')";
-                    } else {
-                        throw new AssertionError();
-                    }
+            columns.forEach(columnName -> {
+                Object value = row.get(table.getColumn(columnName));
+                if (value != null) {
+                    String s = Export.this.toString(value);
                     cols.add(columnName);
                     vs.add(s);
                 }
@@ -55,5 +40,24 @@ public class Export {
             out.println(sb);
             sb.setLength(0);
         }
+    }
+
+    private String toString(Object value) {
+        String s;
+        if (value == null) {
+            return null;
+        } else
+        if (value instanceof String) {
+            s = "'" + value + "'";
+        } else
+        if (value instanceof Number) {
+            s = String.valueOf(value);
+        } else
+        if (value instanceof Date) {
+            s = "to_date('" + format.format(value) + "','DD.MM.YYYY HH24:MI:SS')";
+        } else {
+            throw new AssertionError();
+        }
+        return s;
     }
 }
