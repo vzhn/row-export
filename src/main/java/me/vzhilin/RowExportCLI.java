@@ -22,15 +22,23 @@ public class RowExportCLI {
         Options options = new Options();
         options.addOption("h", "help", false, "show help and exit");
         options.addRequiredOption("u", "url", true, "jdbc connection url");
-        options.addOption("l", "login", true, "connection login");
-        options.addOption("p", "password", true, "connection password");
+        options.addOption("l", "login", true, "jdbc connection login");
+        options.addOption("p", "password", true, "jdbc connection password");
 
         Option expressionOpt = new Option("e", "expression", true, "expression");
         expressionOpt.setArgs(Option.UNLIMITED_VALUES);
         expressionOpt.setValueSeparator(';');
         options.addOption(expressionOpt);
 
-        CommandLine cmd = new DefaultParser().parse(options, argv);
+        CommandLine cmd;
+        try {
+            cmd = new DefaultParser().parse(options, argv);
+        } catch (MissingOptionException ex) {
+            HelpFormatter helpFormatter = new HelpFormatter();
+            helpFormatter.printHelp("row-export [options]", options);
+            return;
+        }
+
         if (cmd.hasOption('h')) {
             HelpFormatter helpFormatter = new HelpFormatter();
             helpFormatter.printHelp("row-export [options]", options);
