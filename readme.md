@@ -22,6 +22,16 @@ ORDERS ORDER_ID:10440
 +----------------------- table name
 ```
 
+It is possible to define multiple rows using ``;`` separator:
+``` 
+ORDERS ORDER_ID:10440; CUSTOMERS CUSTOMER_ID:71
+```
+
+If primary key consists of one column it can be omitted:
+``` 
+ORDERS 10440; CUSTOMERS 71
+```
+
 
 Output:
 ```sql
