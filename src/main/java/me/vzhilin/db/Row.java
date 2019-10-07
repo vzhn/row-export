@@ -53,13 +53,6 @@ public final class Row {
         return result;
     }
 
-    public Row forwardReference(ForeignKey fk) {
-        Map<Column, Object> pkValues = new HashMap<>();
-        // TODO check not null
-        fk.getColumnMapping().forEach((pkColumn, fkColumn) -> pkValues.put(pkColumn, get(fkColumn)));
-        return new Row(ctx, new ObjectKey(fk.getPkTable(), pkValues));
-    }
-
     public Map<ForeignKey, Number> backwardReferencesCount() {
         Set<ForeignKey> foreignKeys = key.getTable().getPrimaryKey().get().getForeignKeys();
         Map<ForeignKey, Number> result = new HashMap<>(foreignKeys.size());
