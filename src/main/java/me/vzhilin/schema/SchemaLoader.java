@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 
 import me.vzhilin.util.BiMap;
 
-public class SchemaLoader {
+public final class SchemaLoader {
     public Schema load(DataSource ds, String schemaName) throws SQLException {
         Schema schema = new Schema(schemaName);
         Connection conn = ds.getConnection();
@@ -42,11 +42,6 @@ public class SchemaLoader {
         }
         columns.close();
 
-        /**
-         FKTABLE_NAME String => foreign key table name
-         FKCOLUMN_NAME String => foreign key column nam
-         */
-
         for (String tableName: schema.getTableNames()) {
             Table table = schema.getTable(tableName);
             ResultSet primaryKeys = metadata.getPrimaryKeys(null, schemaName, tableName);
@@ -71,7 +66,7 @@ public class SchemaLoader {
                 PrimaryKey pk = maybePk.get();
                 ResultSet keys = metadata.getExportedKeys(null, schemaName, tableName);
 
-                // fkTable, fkName, columnMapping
+                // fkTable, fkName, pkColumn -> fkColumn
                 Map<Table, Map<String, BiMap<Column, Column>>> columnMapping = new HashMap<>();
 
                 while (keys.next()) {

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class PrimaryKey {
+public final class PrimaryKey {
     private final Optional<String> name;
     private final Table table;
     private final Set<Column> columns = new HashSet<>();

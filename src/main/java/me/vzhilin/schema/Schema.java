@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class Schema {
+public final class Schema {
     private final String name;
     private final Map<String, Table> tables = new HashMap<>();
 

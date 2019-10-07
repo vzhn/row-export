@@ -13,7 +13,7 @@ import me.vzhilin.schema.PrimaryKey;
 import me.vzhilin.schema.Schema;
 import me.vzhilin.schema.Table;
 
-public class KeyParser {
+public final class KeyParser {
     public List<ObjectKey> parse(Schema schema, String[] es) {
         List<ObjectKey> result = new ArrayList<>();
         for (String e: es) {

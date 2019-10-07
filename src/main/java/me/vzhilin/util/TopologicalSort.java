@@ -9,7 +9,7 @@ import java.util.Queue;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Sets;
 
-public class TopologicalSort<V> {
+public final class TopologicalSort<V> {
     private final HashMultimap<V, V> outcomingEdges = HashMultimap.create();
     private final HashMultimap<V, V> incomingEdges = HashMultimap.create();
 

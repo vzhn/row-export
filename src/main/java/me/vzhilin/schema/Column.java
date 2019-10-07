@@ -2,7 +2,7 @@ package me.vzhilin.schema;
 
 import java.util.Objects;
 
-public class Column {
+public final class Column {
     private final String name;
     private final String dataType;
     private final Table table;

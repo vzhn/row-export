@@ -12,7 +12,7 @@ import com.google.common.base.Joiner;
 import me.vzhilin.db.Row;
 import me.vzhilin.schema.Table;
 
-public class Export {
+public final class Export {
     private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     public void export(List<Row> rows, PrintStream out) {

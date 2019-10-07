@@ -6,7 +6,7 @@ import java.util.Map;
 import me.vzhilin.schema.Column;
 import me.vzhilin.schema.Table;
 
-public class ObjectKeyBuilder {
+public final class ObjectKeyBuilder {
     private final Map<Column, Object> keyValues = new HashMap<>();
     private final Table table;
 
