@@ -1,10 +1,10 @@
 package me.vzhilin.db;
 
-import me.vzhilin.schema.Column;
-import me.vzhilin.schema.Table;
-
 import java.util.Map;
 import java.util.Objects;
+
+import me.vzhilin.schema.Column;
+import me.vzhilin.schema.Table;
 
 public final class ObjectKey {
     private final Table table;

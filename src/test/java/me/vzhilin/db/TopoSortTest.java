@@ -1,11 +1,13 @@
-package me.vzhilin.schema;
-
-import com.google.common.collect.Lists;
-import me.vzhilin.util.TopologicalSort;
-import org.junit.Test;
+package me.vzhilin.db;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+
+import com.google.common.collect.Lists;
+
+import org.junit.Test;
+
+import me.vzhilin.util.TopologicalSort;
 
 public final class TopoSortTest {
     @Test

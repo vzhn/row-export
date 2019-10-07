@@ -1,11 +1,11 @@
 package me.vzhilin.schema;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
 
 public class PrimaryKey {
     private final Optional<String> name;

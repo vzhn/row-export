@@ -1,21 +1,31 @@
-package me.vzhilin.schema;
+package me.vzhilin.db;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.Set;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import me.vzhilin.util.BiMap;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.Set;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
+import me.vzhilin.schema.Column;
+import me.vzhilin.schema.ForeignKey;
+import me.vzhilin.schema.PrimaryKey;
+import me.vzhilin.schema.Schema;
+import me.vzhilin.schema.SchemaLoader;
+import me.vzhilin.schema.Table;
+import me.vzhilin.util.BiMap;
 
 public final class SchemaTests {
     private QueryRunner runner;

@@ -1,15 +1,8 @@
-package me.vzhilin.schema;
+package me.vzhilin.db;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import me.vzhilin.db.ObjectKey;
-import me.vzhilin.db.Row;
-import me.vzhilin.db.RowContext;
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.dbutils.QueryRunner;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -17,9 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import me.vzhilin.schema.Column;
+import me.vzhilin.schema.ForeignKey;
+import me.vzhilin.schema.Schema;
+import me.vzhilin.schema.SchemaLoader;
+import me.vzhilin.schema.Table;
 
 public class RowTests {
     private QueryRunner runner;

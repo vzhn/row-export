@@ -1,6 +1,10 @@
 package me.vzhilin.schema;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class Schema {
     private final String name;

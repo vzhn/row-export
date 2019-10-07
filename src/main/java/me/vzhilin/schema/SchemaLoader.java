@@ -1,8 +1,5 @@
 package me.vzhilin.schema;
 
-import me.vzhilin.util.BiMap;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -10,6 +7,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
+
+import me.vzhilin.util.BiMap;
 
 public class SchemaLoader {
     public Schema load(DataSource ds, String schemaName) throws SQLException {

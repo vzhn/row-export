@@ -1,10 +1,14 @@
 package me.vzhilin.db;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
 import me.vzhilin.schema.Column;
 import me.vzhilin.schema.ForeignKey;
 import me.vzhilin.schema.Table;
-
-import java.util.*;
 
 public final class Row {
     private final ObjectKey key;

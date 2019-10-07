@@ -1,16 +1,17 @@
 package me.vzhilin.cli;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Iterables;
+
 import me.vzhilin.db.ObjectKey;
 import me.vzhilin.schema.Column;
 import me.vzhilin.schema.PrimaryKey;
 import me.vzhilin.schema.Schema;
 import me.vzhilin.schema.Table;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class KeyParser {
     public List<ObjectKey> parse(Schema schema, String[] es) {

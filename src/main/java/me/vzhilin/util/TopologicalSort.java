@@ -1,9 +1,13 @@
 package me.vzhilin.util;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Sets;
-
-import java.util.*;
 
 public class TopologicalSort<V> {
     private final HashMultimap<V, V> outcomingEdges = HashMultimap.create();

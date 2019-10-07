@@ -1,19 +1,31 @@
 package me.vzhilin.db;
 
+import java.io.Closeable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.sql.DataSource;
+
 import com.google.common.base.Joiner;
+
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+
 import me.vzhilin.schema.Column;
 import me.vzhilin.schema.ForeignKey;
 import me.vzhilin.schema.Schema;
 import me.vzhilin.schema.Table;
 import me.vzhilin.util.BiMap;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.MapHandler;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
-
-import javax.sql.DataSource;
-import java.io.Closeable;
-import java.sql.*;
-import java.util.*;
 
 public final class RowContext {
     private final QueryRunner runner;

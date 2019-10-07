@@ -1,5 +1,20 @@
 package me.vzhilin;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.MissingOptionException;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+
 import me.vzhilin.cli.Export;
 import me.vzhilin.cli.Fetch;
 import me.vzhilin.cli.KeyParser;
@@ -8,14 +23,6 @@ import me.vzhilin.db.Row;
 import me.vzhilin.db.RowContext;
 import me.vzhilin.schema.Schema;
 import me.vzhilin.schema.SchemaLoader;
-import org.apache.commons.cli.*;
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
-
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Locale;
 
 public class RowExportCLI {
     public static void main(String... argv) throws SQLException, ParseException {

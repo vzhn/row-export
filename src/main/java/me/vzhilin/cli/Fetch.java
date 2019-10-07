@@ -1,9 +1,13 @@
 package me.vzhilin.cli;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
 import me.vzhilin.db.Row;
 import me.vzhilin.util.TopologicalSort;
-
-import java.util.*;
 
 public final class Fetch {
     public List<Row> fetch(List<Row> start) {
