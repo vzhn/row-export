@@ -37,4 +37,12 @@ INSERT INTO NORTHWIND.ORDERS(ORDER_ID,CUSTOMER_ID,EMPLOYEE_ID,ORDER_DATE,REQUIRE
   (10440,71,4,to_date('10.02.1997 00:00:00','DD.MM.YYYY HH24:MI:SS'),to_date('10.03.1997 00:00:00','DD.MM.YYYY HH24:MI:SS'),to_date('28.02.1997 00:00:00','DD.MM.YYYY HH24:MI:SS'),2,86.53,'Save-a-lot Markets','187 Suffolk Ln.','Boise','ID','83720','USA');
 ```
 
-When topological sorting for selected rows is not possible you'll see ``cycles detected`` exception message 
+When topological sorting for selected rows is not possible you'll see ``cycles detected`` exception message
+
+#### Building
+
+``mvn clean package appassembler:assemble assembly:single`` 
+
+When build completes, you should see an application archive in the target folder:
+
+``target\row-export-1.0-SNAPSHOT-bin.zip``
