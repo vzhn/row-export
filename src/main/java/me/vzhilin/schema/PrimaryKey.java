@@ -34,6 +34,14 @@ public final class PrimaryKey {
         return Collections.unmodifiableSet(columns);
     }
 
+    public Optional<String> getName() {
+        return name;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
     public Set<String> getColumnNames() {
         return columns.stream().map(Column::getName).collect(toSet());
     }
